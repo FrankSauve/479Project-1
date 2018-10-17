@@ -1,5 +1,5 @@
-from src.Preprocessing import get_token_stream
-from src.SPIMI import spimi_invert
+from Preprocessing import get_token_stream
+from SPIMI import spimi_invert
 
 print("Starting preprocessing...")
 token_stream = get_token_stream()
