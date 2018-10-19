@@ -1,6 +1,7 @@
 import os
 from nltk.tokenize import word_tokenize
 
+
 def get_token_stream():
     """
     Gets the token stream (term, doc_id) from all the reuters documents.
@@ -38,5 +39,4 @@ def get_token_stream():
                 tokenized_line = word_tokenize(line)  # Tokenize the entire line
                 for token in tokenized_line:
                     token_stream.append((token, doc_id))  # Add each term and doc_id to the token_stream
-
     return token_stream
