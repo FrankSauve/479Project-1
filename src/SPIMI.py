@@ -4,12 +4,14 @@ import json
 def spimi_invert(output_file, token_stream):
     """
     Performs the single-pass in-memory indexing algorithm
+    Output is found in /DISK/BLOCKXX.json
     :param output_file: The file where the output will be written to disk
     :param token_stream: The token (term, doc_id) stream
     """
     dictionary = {}  # Create empty dictionary
     for token in token_stream:  # Loop through tokens
         term, doc_id = token
+        doc_id = int(doc_id)
         if term not in dictionary:
             postings_list = add_to_dictionary(dictionary, term)  # Add to dictionary if the term is not in it
         else:
