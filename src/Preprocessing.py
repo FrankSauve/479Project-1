@@ -2,7 +2,7 @@ import os
 from nltk.tokenize import word_tokenize
 
 
-def get_token_stream():
+def create_token_stream():
     """
     Gets the token stream (term, doc_id) from all the reuters documents.
     :return list token_stream: List of (term, doc_id) tuples
@@ -40,3 +40,27 @@ def get_token_stream():
                 for token in tokenized_line:
                     token_stream.append((token, doc_id))  # Add each term and doc_id to the token_stream
     return token_stream
+
+
+def make_blocks(block_size, token_stream):
+    """
+    Creates blocks from the token_stream
+    :param block_size: Number of documents in the block
+    :param token_stream: Tokens (term, doc_id) to separated into blocks
+    :return: A list of all the blocks
+    """
+    blocks = []
+    block = []
+    in_new_doc = False
+    for token in token_stream:
+        term, doc_id = token
+        if int(doc_id) % block_size == 0 and not in_new_doc:  # Reached the block_size
+            blocks.append(block)
+            block = []
+            in_new_doc = True
+        elif int(doc_id) % block_size == 1:
+            in_new_doc = False
+        block.append(token)
+    blocks.append(block)
+
+    return blocks
