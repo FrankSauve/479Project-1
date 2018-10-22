@@ -59,7 +59,7 @@ def add_term_to_inverted_index(term, dictionary, inverted_index):
 def remove_numbers(dictionary):
     """
     Removes numbers from the dictionary
-    :param dictionary: Dictionary of postings list
+    :param dictionary: Dictionary of term --> doc_id
     """
     to_remove = []
     for term in dictionary:
@@ -71,6 +71,10 @@ def remove_numbers(dictionary):
 
 
 def case_fold(dictionary):
+    """
+    Performs case folding on the dictionary
+    :param dictionary: Dictionary of term --> doc_id
+    """
     to_remove = []
     for term in dictionary:
         if term.lower() in dictionary:
@@ -88,7 +92,7 @@ def case_fold(dictionary):
 def remove_stop_words(dictionary):
     """
     Removes stop words from the dictionary using nltk stopwords
-    :param dictionary:
+    :param dictionary: Dictionary of term --> doc_id
     :return:
     """
     to_remove = []
@@ -102,35 +106,48 @@ def remove_stop_words(dictionary):
 
 
 def stem_words(dictionary):
+    """
+    Uses the nltk PorterStemmer to stem words in the dictionary
+    :param dictionary: Dictionary of term --> doc_id
+    """
     ps = PorterStemmer()
     to_remove = []
     to_add = {}
     for term in dictionary:
         stemmed_term = ps.stem(term)
-        if stemmed_term in to_add:
+
+        # If the stemmed_term is already in the dictionary
+        if stemmed_term in dictionary:
             if term != stemmed_term:
                 to_remove.append(term)
-                for doc_id in dictionary[term]:
-                    if doc_id not in to_add[stemmed_term]:
-                        to_add[stemmed_term].append(doc_id)
-                        to_add[stemmed_term].sort()
+            for doc_id in dictionary[term]:
+                if doc_id not in dictionary[stemmed_term]:
+                    dictionary[stemmed_term].append(doc_id)
+                    dictionary[stemmed_term].sort()
+
+        # If the stemmed_term is not in dictionary, but it is in to_add
+        elif stemmed_term in to_add:
+            if term != stemmed_term:
+                to_remove.append(term)
+            for doc_id in dictionary[term]:
+                if doc_id not in to_add[stemmed_term]:
+                    to_add[stemmed_term].append(doc_id)
+
+        # If the term is not in the dictionary or in to_add
         else:
+            if term != stemmed_term:
+                to_remove.append(term)
             for doc_id in dictionary[term]:
                 to_add[stemmed_term] = []
                 to_add[stemmed_term].append(doc_id)
 
-    # TODO: Continue here: Problem is that terms are not getting deleted from the dictionary
-    # TODO: Also when the stemmed_terms are added they become a list inside of a list
+    # Add the stemmed_terms to the dictionary
     for term in to_add:
         if term not in dictionary:
             dictionary[term] = []
-        dictionary[term].append(to_add[term])
-        # dictionary[term].sort()
+        dictionary[term] += to_add[term]
+        dictionary[term].sort()
 
+    # Remove the terms that were stemmed from the dictionary
     for term in to_remove:
         del dictionary[term]
-
-
-
-
-

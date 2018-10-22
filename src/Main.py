@@ -8,6 +8,7 @@ while True:
                "1. SPIMI\n"
                "2. Inverted index without compression\n"
                "3. Inverted index with compression\n"
+               "4. Execute a query\n"
                "0. Exit program\n")
 
 # TODO: Not used for now, maybe uncomment for release if I understand what its used for
