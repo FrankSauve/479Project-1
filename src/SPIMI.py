@@ -61,6 +61,3 @@ def write_block_to_disk(output_file, sorted_terms, dictionary):
     """
     data = {"sorted_terms": sorted_terms, "dictionary": dictionary}
     json.dump(data, output_file, indent=4)
-
-
-

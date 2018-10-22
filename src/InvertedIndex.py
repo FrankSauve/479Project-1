@@ -120,26 +120,27 @@ def stem_words(dictionary):
         if stemmed_term in dictionary:
             if term != stemmed_term:
                 to_remove.append(term)
-            for doc_id in dictionary[term]:
-                if doc_id not in dictionary[stemmed_term]:
-                    dictionary[stemmed_term].append(doc_id)
-                    dictionary[stemmed_term].sort()
+                for doc_id in dictionary[term]:
+                    if doc_id not in dictionary[stemmed_term]:
+                        dictionary[stemmed_term].append(doc_id)
+                        dictionary[stemmed_term].sort()
 
         # If the stemmed_term is not in dictionary, but it is in to_add
         elif stemmed_term in to_add:
             if term != stemmed_term:
                 to_remove.append(term)
-            for doc_id in dictionary[term]:
-                if doc_id not in to_add[stemmed_term]:
-                    to_add[stemmed_term].append(doc_id)
+                for doc_id in dictionary[term]:
+                    if doc_id not in to_add[stemmed_term]:
+                        to_add[stemmed_term].append(doc_id)
+                        to_add[stemmed_term].sort()
 
         # If the term is not in the dictionary or in to_add
         else:
             if term != stemmed_term:
                 to_remove.append(term)
-            for doc_id in dictionary[term]:
                 to_add[stemmed_term] = []
-                to_add[stemmed_term].append(doc_id)
+                for doc_id in dictionary[term]:
+                    to_add[stemmed_term].append(doc_id)
 
     # Add the stemmed_terms to the dictionary
     for term in to_add:
