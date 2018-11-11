@@ -51,15 +51,14 @@ def make_blocks(block_size, token_stream):
     """
     blocks = []
     block = []
-    in_new_doc = False
+    current_block = 1
     for token in token_stream:
         term, doc_id = token
-        if int(doc_id) % block_size == 0 and not in_new_doc:  # Reached the block_size
+
+        if int(doc_id) >= (current_block * block_size):  # Create new block
             blocks.append(block)
             block = []
-            in_new_doc = True
-        elif int(doc_id) % block_size == 1:
-            in_new_doc = False
+            current_block += 1
         block.append(token)
     blocks.append(block)
 

@@ -1,7 +1,7 @@
 from nltk.tokenize import word_tokenize
 import os
 import json
-from Helpers import BColors
+from LogColors import LogColors
 from nltk.stem import PorterStemmer
 
 
@@ -75,7 +75,7 @@ def query_and(query_tokens, inverted_index):
 
     # If there is no result
     else:
-        print(BColors.FAIL + "\nNo results found" + BColors.ENDC)
+        print(LogColors.FAIL + "\nNo results found" + LogColors.ENDC)
 
 
 def query_or(query_tokens, inverted_index):
@@ -110,4 +110,4 @@ def query_or(query_tokens, inverted_index):
 
     # If there is no result
     else:
-        print(BColors.FAIL + "\nNo results found" + BColors.ENDC)
+        print(LogColors.FAIL + "\nNo results found" + LogColors.ENDC)

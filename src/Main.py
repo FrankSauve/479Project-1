@@ -1,20 +1,16 @@
 from Preprocessing import create_token_stream, make_blocks
 from SPIMI import spimi_invert
 from InvertedIndex import create_inverted_index
-from Helpers import BColors
+from LogColors import LogColors
 from Query import query
 
-
 while True:
-    option = input(BColors.HEADER + "\nWhich action do you want to execute?\n" + BColors.ENDC +
+    option = input(LogColors.HEADER + "\nWhich action do you want to execute?\n" + LogColors.ENDC +
                    "1. SPIMI\n"
                    "2. Inverted index without compression\n"
                    "3. Inverted index with compression\n"
                    "4. Execute a query\n"
                    "0. Exit program\n")
-
-# TODO: Not used for now, maybe uncomment for release if I understand what its used for
-# memory_size = int(input("Memory size? "))
 
     if option == "1":
         block_size = int(input("Block size? "))
@@ -45,11 +41,11 @@ while True:
         print("Inverted index created!\n")
 
     elif option == "4":
-        compression_option = input(BColors.HEADER + "Do you want to search in the compressed or uncompressed inverted "
-                                                    "index?" + BColors.ENDC + "\n1. Uncompressed\n2. Compressed\n")
+        compression_option = input(LogColors.HEADER + "Do you want to search in the compressed or uncompressed inverted "
+                                                    "index?" + LogColors.ENDC + "\n1. Uncompressed\n2. Compressed\n")
 
-        query_text = input("Enter your query separated by " + BColors.BOLD + "AND " + BColors.ENDC + "or" +
-                           BColors.BOLD + " OR" + BColors.ENDC + ":\n")
+        query_text = input("Enter your query separated by " + LogColors.BOLD + "AND " + LogColors.ENDC + "or" +
+                           LogColors.BOLD + " OR" + LogColors.ENDC + ":\n")
 
         if compression_option == "1":
             filename = "no_compression.json"

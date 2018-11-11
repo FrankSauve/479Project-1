@@ -2,7 +2,7 @@ import json
 import os
 import re
 from nltk.corpus import stopwords
-from Helpers import BColors
+from LogColors import LogColors
 from nltk.stem import PorterStemmer
 
 
@@ -27,15 +27,15 @@ def create_inverted_index(with_compression):
             add_term_to_inverted_index(term, dictionary, inverted_index)  # Merge the blocks
 
     if with_compression:
-        print("Uncompressed length:", BColors.OKBLUE, len(inverted_index), BColors.ENDC)
+        print("Uncompressed length:", LogColors.OKBLUE, len(inverted_index), LogColors.ENDC)
         remove_numbers(inverted_index)
-        print("Length after removing numbers:", BColors.OKBLUE, len(inverted_index), BColors.ENDC)
+        print("Length after removing numbers:", LogColors.OKBLUE, len(inverted_index), LogColors.ENDC)
         case_fold(inverted_index)
-        print("Length after case folding:", BColors.OKBLUE, len(inverted_index), BColors.ENDC)
+        print("Length after case folding:", LogColors.OKBLUE, len(inverted_index), LogColors.ENDC)
         remove_stop_words(inverted_index)
-        print("Length after removing stop words:", BColors.OKBLUE, len(inverted_index), BColors.ENDC)
+        print("Length after removing stop words:", LogColors.OKBLUE, len(inverted_index), LogColors.ENDC)
         stem_words(inverted_index)
-        print("Length after stemming", BColors.OKBLUE, len(inverted_index), BColors.ENDC)
+        print("Length after stemming", LogColors.OKBLUE, len(inverted_index), LogColors.ENDC)
 
     json.dump(inverted_index, output_file, indent=4)
 
