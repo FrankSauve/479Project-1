@@ -1,8 +1,12 @@
-from Preprocessing import create_token_stream, make_blocks
+import os
+import pickle
+from Preprocessing import create_token_stream, make_blocks, get_corpus
 from SPIMI import spimi_invert
 from InvertedIndex import create_inverted_index
 from LogColors import LogColors
 from Query import query
+from BM25 import BM25
+
 
 while True:
     option = input(LogColors.HEADER + "\nWhich action do you want to execute?\n" + LogColors.ENDC +
@@ -53,6 +57,21 @@ while True:
         elif compression_option == "2":
             filename = "with_compression.json"
             query(query_text, filename, True)
+
+    elif option == "5":
+        print("Creating corpus...")
+        corpus = get_corpus()
+        print("Corpus created!")
+        print("Creating BM25...")
+        bm25 = BM25(corpus[:10])
+        with open(os.path.abspath(os.path.join(os.getcwd(), "../pickles/bm25.pkl")), "wb") as pickle_file:
+            pickle.dump(bm25, pickle_file)
+        print("BM25 created!")
+
+    elif option == "6":
+        with open(os.path.abspath(os.path.join(os.getcwd(), "../pickles/bm25.pkl")), "rb") as pickle_file:
+            bm25 = pickle.load(pickle_file)
+        bm25.ranked(["the"], 10)
 
     elif option == "0":
         exit(0)

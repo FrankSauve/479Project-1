@@ -42,6 +42,43 @@ def create_token_stream():
     return token_stream
 
 
+def get_corpus():
+
+    documents = []
+
+    # Loop through all files in reuters
+    for filename in os.listdir("../reuters"):
+        file = open(os.path.abspath(os.path.join(os.getcwd(), "../reuters", filename)), "r")
+        lines = file.readlines()
+
+        document = []
+
+        inside_body = False
+        for line in lines:
+            if "NEWID=" in line and document:
+                documents.append(document)
+            if "<BODY>" in line:
+                index_body = line.index("<BODY>") + 6  # Add six because six characters in <BODY>
+                inside_body = True  # We are inside the BODY tags
+                tokenized_line = word_tokenize(line[index_body:])  # Tokenize the line after the tag
+                for token in tokenized_line:
+                    document.append(token)  # Add each term and doc_id to the token_stream
+
+            elif "</BODY>" in line:
+                index_body = line.index("</BODY>")
+                inside_body = False  # We are at the end of the BODY tags
+                tokenized_line = word_tokenize(line[:index_body])  # Tokenize the line before the tag
+                for token in tokenized_line:
+                    document.append(token)  # Add each term and doc_id to the token_stream
+
+            elif inside_body:  # We are already inside the body
+                tokenized_line = word_tokenize(line)  # Tokenize the entire line
+                for token in tokenized_line:
+                    document.append(token)  # Add each term and doc_id to the token_stream
+
+    return documents
+
+
 def make_blocks(block_size, token_stream):
     """
     Creates blocks from the token_stream
